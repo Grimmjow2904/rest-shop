@@ -1,33 +1,30 @@
 package com.restshop.restshop.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 
 @Entity
 @Builder
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Table(name = "producto")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idProducto;
-
     private String nombre;
-
     private Float precio;
 
-    protected Product() {}
-
-    public Product(Long idProducto, String nombre, Float precio) {
-        this.idProducto = idProducto;
-        this.nombre = nombre;
-        this.precio=precio;
-    }
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "idProducto")
+    private Set<DetailSale> detailSaleSet;
 
     @Override
     public String toString() {
